@@ -3,12 +3,12 @@ export default class APIHandler {
     this.dummyData = [
       {
         id: "abc123",
-        title: "db 구축",
+        title: "데이터베이스 구축하기",
         category: "ongoing",
       },
       {
         id: "def456",
-        title: "db 삭제",
+        title: "데이터베이스 삭제하기",
         category: "todo",
       },
     ];

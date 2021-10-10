@@ -18,7 +18,7 @@ const getCardContainers = () => {
 };
 
 // 카드 요소에서 카드 객체 반환
-const getCardInfo = cardElement =>
+const getCardInfo = (cardElement) =>
   new Card(
     cardElement,
     cardElement.children[1].value,
@@ -27,11 +27,10 @@ const getCardInfo = cardElement =>
   );
 
 // 카드 드래그 앤 드랍 시작 이벤트. 카테고리 이름 & 카드 ID 저장. 이동가능 영역 표시
-const ondragstart = event => {
-  let currentColumnType = event.target.parentNode.parentNode.getAttribute(
-    "data-card-category"
-  );
-  getCardContainers().forEach(element => {
+const ondragstart = (event) => {
+  let currentColumnType =
+    event.target.parentNode.parentNode.getAttribute("data-card-category");
+  getCardContainers().forEach((element) => {
     if (
       element.parentNode.getAttribute("data-card-category") !==
       currentColumnType
@@ -43,7 +42,7 @@ const ondragstart = event => {
 };
 
 // 카드 온드랍 이벤트. 카테고리 이동
-const cardOnDrop = event => {
+const cardOnDrop = (event) => {
   event.target.classList.remove("hover");
   let from = event.dataTransfer.getData("columnType");
   let to = event.target.parentNode.getAttribute("data-card-category");
@@ -56,21 +55,21 @@ const cardOnDrop = event => {
 };
 
 // 카드 드래그 앤 드랍 종료 이벤트. 이동가능 영역 표시 CSS class 제거
-const ondragend = event => {
-  getCardContainers().forEach(element => {
+const ondragend = (event) => {
+  getCardContainers().forEach((element) => {
     element.classList.remove("hoverable");
   });
 };
 
 // 새로운 카드 생성 이벤트.
-const createCard = event => {
+const createCard = (event) => {
   let category = event.target.parentNode.getAttribute("data-card-category");
   let cardObj = new Card(null, null, null, category);
   cardFactory(cardObj);
 };
 
 // 기존/신규 카드 요소 생성. 이후 onChangeCard() 트리거
-const cardFactory = cardObj => {
+const cardFactory = (cardObj) => {
   let cardElement = document.createElement("div");
   cardElement.className = "card";
   cardElement.ondragstart = ondragstart;
@@ -102,7 +101,7 @@ const cardFactory = cardObj => {
 };
 
 // 카드 생성/업데이트 컨트롤러
-const onChangeCard = event => {
+const onChangeCard = (event) => {
   let title = event.target.value.trim();
   let cardElement = event.target.parentNode;
   let cardObj = getCardInfo(cardElement);
@@ -117,9 +116,9 @@ const onChangeCard = event => {
 
 // 기존 카드들 불러오기
 const getCards = async () => {
-  var cards = await API.getCards();  
+  var cards = await API.getCards();
   if (cards && cards.length > 0) {
-    cards.forEach(card => {      
+    cards.forEach((card) => {
       let cardObj = new Card(null, card.title, card.id, card.category);
       cardFactory(cardObj);
     });
@@ -127,18 +126,18 @@ const getCards = async () => {
 };
 
 // 카드 등록
-const registerCard = async cardObj => {
+const registerCard = async (cardObj) => {
   let cardId = await API.postCard(cardObj);
   cardObj.cardElement.id = "card-id-" + cardId;
 };
 
 // 카드 업데이트
-const updateCard = async cardObj => {
+const updateCard = async (cardObj) => {
   await API.putCard(cardObj);
 };
 
 // 카드 삭제
-const deleteCard = event => {
+const deleteCard = (event) => {
   let cardElement = event.target.parentNode;
   let id = cardElement.id.replace("card-id-", "");
   API.deleteCard(id);
@@ -148,10 +147,10 @@ const deleteCard = event => {
 // 드래그 앤 드랍 이벤트 등록
 (() => {
   window.createCard = createCard;
-  getCardContainers().forEach(element => {
-    element.ondragenter = event => event.target.classList.add("hover");
-    element.ondragleave = event => event.target.classList.remove("hover");
-    element.ondragover = event => event.preventDefault();
+  getCardContainers().forEach((element) => {
+    element.ondragenter = (event) => event.target.classList.add("hover");
+    element.ondragleave = (event) => event.target.classList.remove("hover");
+    element.ondragover = (event) => event.preventDefault();
     element.ondrop = cardOnDrop;
   });
   getCards();

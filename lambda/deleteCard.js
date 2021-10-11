@@ -11,14 +11,17 @@ exports.handler = async (event) => {
   let response = "";
 
   try {
+    const id = event.pathParameters.id;
     var params = {
       TableName: tableName,
+      Key: {
+        id: id,
+      },
     };
-    const cards = await documentClient.scan(params).promise();
+    await documentClient.delete(params).promise();
 
     response = {
       statusCode: 200,
-      body: JSON.stringify(cards),
     };
   } catch (exception) {
     console.error(exception);

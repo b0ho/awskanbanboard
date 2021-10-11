@@ -11,14 +11,22 @@ exports.handler = async (event) => {
   let response = "";
 
   try {
+    const id = event.pathParameters.id;
+    const body = JSON.parse(event.body);
     var params = {
       TableName: tableName,
+      Key: { id: id },
+      UpdateExpression: "set #c = :c, #t = :t",
+      ExpressionAttributeNames: { "#t": "title", "#c": "category" },
+      ExpressionAttributeValues: {
+        ":t": body.title,
+        ":c": body.category,
+      },
     };
-    const cards = await documentClient.scan(params).promise();
+    await documentClient.update(params).promise();
 
     response = {
       statusCode: 200,
-      body: JSON.stringify(cards),
     };
   } catch (exception) {
     console.error(exception);

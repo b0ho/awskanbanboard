@@ -26,13 +26,19 @@ exports.handler = async (event) => {
     await documentClient.update(params).promise();
 
     response = {
-      statusCode: 200,
+      statusCode: 204,
+      headers: {
+        "Access-Control-allow-Origin": "*",
+      },
     };
   } catch (exception) {
     console.error(exception);
 
     response = {
       statusCode: 500,
+      headers: {
+        "Access-Control-allow-Origin": "*",
+      },
       body: JSON.stringify({ "Message: ": exception }),
     };
   }

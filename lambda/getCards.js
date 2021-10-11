@@ -18,6 +18,9 @@ exports.handler = async (event) => {
 
     response = {
       statusCode: 200,
+      headers: {
+        "Access-Control-allow-Origin": "*",
+      },
       body: JSON.stringify(cards),
     };
   } catch (exception) {
@@ -25,6 +28,9 @@ exports.handler = async (event) => {
 
     response = {
       statusCode: 500,
+      headers: {
+        "Access-Control-allow-Origin": "*",
+      },
       body: JSON.stringify({ "Message: ": exception }),
     };
   }

@@ -77,6 +77,7 @@ const APIProcessor = async (request) => {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        "x-api-key": "LUAu3acjb5743lfEPoRai1iEOg6lP89N1qwlJNRx",
       },
       body: request.body ? JSON.stringify(request.body) : null,
     });

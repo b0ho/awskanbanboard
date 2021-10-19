@@ -25,3 +25,5 @@
 1. cloudFront 연결 및 테스트
 2. s3 - cloudfront - api gateway - lambda - dynmodb 연결 완료
 3. cloudwatch 대시보드 생성
+
+git test

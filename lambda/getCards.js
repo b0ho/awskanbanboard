@@ -1,4 +1,5 @@
-var AWS = require("aws-sdk");
+var AWSXRay = require("aws-xray-sdk");
+var AWS = AWSXRay.captureAWS(require("aws-sdk"));
 var documentClient = new AWS.DynamoDB.DocumentClient({
   apiVersion: "2012-08-10",
 });

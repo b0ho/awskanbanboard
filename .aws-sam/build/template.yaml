@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: 'sam-kanban
+
+  Sample SAM Template for sam-kanban
+
+  '
+Globals:
+  Function:
+    Timeout: 3
+    Handler: app.handler
+    Runtime: nodejs14.x
+    Layers:
+    - Ref: XrayLayer
+Resources:
+  APIGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: Kanban API Gateway
+      StageName: prod
+  XrayLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      CompatibleRuntimes:
+      - nodejs14.x
+      ContentUri: ../../layer/xraysdk
+      Description: Kanban board X-ray SDK layer
+      LayerName: XraySDK
+      RetentionPolicy: Retain
+  GetCardsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: GetCardsFunction
+      Role: arn:aws:iam::566476409742:role/Lambda_Kanban_Role
+      Events:
+        Trigger:
+          Type: Api
+          Properties:
+            Path: /kanban/cards
+            Method: get
+            Auth:
+              ApiKeyRequired: true
+            RestApiId:
+              Ref: APIGateway
+    Metadata:
+      SamResourceId: GetCardsFunction
+Outputs:
+  APIGateway:
+    Description: API Gateway endpoint URL for Prod stage for kanban project
+    Value:
+      Fn::Sub: https://${APIGateway}.execute-api.${AWS::Region}.amazonaws.com/prod

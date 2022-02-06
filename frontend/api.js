@@ -56,7 +56,7 @@ export default class APIHandler {
   }
 }
 
-const HOST = "https://qjr7nkgq62.execute-api.ap-northeast-2.amazonaws.com/prod";
+const HOST = "https://550dc0yw39.execute-api.ap-northeast-2.amazonaws.com/prod";
 
 // TODO: API 요청 컨테이너. Method, Path, Body 속성
 class APIRequest {
